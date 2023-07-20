@@ -28,4 +28,4 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/whatsup:v${{ github.ref }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/whatsup:v${{ github.ref_tag }}
