@@ -10,6 +10,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Set Docker tag
+        id: set_tag
+        run: echo "::set-output name=tag::${{ github.ref }}"
+
       - name: Login Docker Hub
         uses: docker/login-action@v1
         with:
@@ -28,4 +32,4 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/whatsup:v${{ github.ref_tag }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/whatsup:${{ steps.set_tag.outputs.tag }}
