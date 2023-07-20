@@ -16,7 +16,12 @@ jobs:
 
       - name: Extract tag name
         id: extract_tag
-        run: echo "::set-output name=tag_name::${{ steps.set_tag.outputs.tag | replace('refs/tags/', '') }}"
+        run: |
+          tag_name=${{ steps.set_tag.outputs.tag }}
+          if [[ $tag_name == refs/tags/* ]]; then
+            tag_name=${tag_name#refs/tags/}
+          fi
+          echo "::set-output name=tag_name::${tag_name}"
 
       - name: Login Docker Hub
         uses: docker/login-action@v1
