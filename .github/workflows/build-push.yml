@@ -1,7 +1,8 @@
 name: Build and Push Docker Image
 on:
   push:
-    branches: main
+    tags:
+      - "*"
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -28,6 +29,3 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/whatsup:v${{ github.ref_tag }}
-
-      - name: Verify
-        run: echo ${{ steps.docker_build.outputs.digest }}
